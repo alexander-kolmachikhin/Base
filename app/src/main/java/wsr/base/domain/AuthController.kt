@@ -12,6 +12,7 @@ class AuthController(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit { putBoolean("isAuthorized", isAuthorized) }
 
     suspend fun isAuthorized() = withContext(Dispatchers.IO) {
+        delay(3000)
         sharedPreferences.getBoolean("isAuthorized", false)
     }
 }
