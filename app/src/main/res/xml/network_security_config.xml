@@ -3,5 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.1.186</domain>
         <domain includeSubdomains="true">nhtk-edu.ru</domain>
+        <domain includeSubdomains="true">commondatastorage.googleapis.com</domain>
     </domain-config>
 </network-security-config>

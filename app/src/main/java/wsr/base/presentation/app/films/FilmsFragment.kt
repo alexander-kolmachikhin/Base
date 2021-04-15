@@ -12,7 +12,7 @@ import wsr.base.databinding.FilmsBinding
 
 class FilmsFragment : Fragment(R.layout.films) {
 
-    private val test = "https://vk.com/video393832024_456239524"
+    private val test = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
     private val binding: FilmsBinding by viewBinding()
     private val player by lazy {
         SimpleExoPlayer.Builder(requireContext()).build().also {

@@ -14,6 +14,7 @@ import wsr.base.presentation.app.auth.AuthFragment
 import wsr.base.presentation.app.launch.LaunchFragment
 import wsr.base.presentation.app.main.MainFragment
 import wsr.base.presentation.ext.getFragment
+import wsr.base.presentation.ext.listenChildResult
 import wsr.base.presentation.ext.showFragment
 import kotlin.reflect.KClass
 
@@ -24,20 +25,12 @@ class AppActivity : AppCompatActivity(R.layout.app) {
 
         MobileAds.initialize(this) {}
 
-        if (savedInstanceState == null) {
-            showFragment<LaunchFragment>(addToBackStack = false)
-        }
+        if (savedInstanceState == null) { showFragment<LaunchFragment>(addToBackStack = false) }
 
-        supportFragmentManager.setFragmentResultListener("authorized", this) { key, bundle ->
-            showFragment<MainFragment>(addToBackStack = false)
-        }
+        listenChildResult("authorized") { showFragment<MainFragment>(addToBackStack = false) }
 
-        supportFragmentManager.setFragmentResultListener("goToMain", this) { key, bundle ->
-            showFragment<MainFragment>(addToBackStack = false)
-        }
+        listenChildResult("goToMain") { showFragment<MainFragment>(addToBackStack = false) }
 
-        supportFragmentManager.setFragmentResultListener("goToAuth", this) { key, bundle ->
-            showFragment<AuthFragment>(addToBackStack = false)
-        }
+        listenChildResult("goToAuth") { showFragment<AuthFragment>(addToBackStack = false) }
     }
 }

@@ -12,6 +12,7 @@ import wsr.base.presentation.app.ads.AdsFragment
 import wsr.base.presentation.app.films.FilmsFragment
 import wsr.base.presentation.app.location.LocationFragment
 import wsr.base.presentation.app.profile.ProfileFragment
+import wsr.base.presentation.ext.listenChildResult
 import wsr.base.presentation.ext.showFragment
 
 class MainFragment : Fragment(R.layout.main) {
@@ -32,10 +33,7 @@ class MainFragment : Fragment(R.layout.main) {
             true
         }
 
-        childFragmentManager.setFragmentResultListener(
-            "logOut",
-            viewLifecycleOwner
-        ) { key, bundle ->
+        listenChildResult("logOut") {
             setFragmentResult("goToAuth", bundleOf())
         }
 
