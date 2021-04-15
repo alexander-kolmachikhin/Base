@@ -15,6 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import wsr.base.R
 import wsr.base.databinding.LocationBinding
 
@@ -23,11 +27,13 @@ class LocationFragment : Fragment(R.layout.location), LocationListener {
     private val binding: LocationBinding by viewBinding()
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var locationManager: LocationManager
+    private val mapFragment get() = childFragmentManager.findFragmentByTag("map") as SupportMapFragment
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationManager =
             requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
 
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { isGrantedMap ->
@@ -52,6 +58,27 @@ class LocationFragment : Fragment(R.layout.location), LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBinding()
+        mapFragment.getMapAsync { map ->
+            val sydney = LatLng(-34.0, 151.0)
+            map.addMarker(
+                MarkerOptions()
+                    .position(sydney)
+                    .title("Marker in Sydney")
+            )
+            map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                getPermission()
+            } else {
+                map.isMyLocationEnabled = true
+            }
+        }
     }
 
     private fun setupBinding() = with(binding) {
@@ -95,6 +122,7 @@ class LocationFragment : Fragment(R.layout.location), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        binding.currentLocationTextView.text = "latitude: ${location.latitude}, longitude: ${location.longitude}"
+        binding.currentLocationTextView.text =
+            "latitude: ${location.latitude}, longitude: ${location.longitude}"
     }
 }
