@@ -5,12 +5,13 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import wsr.base.R
 
 inline fun <reified T : Fragment> Fragment.getFragment(tag: String? = T::class.java.name) =
     childFragmentManager.getFragment<T>(tag)
 
 inline fun <reified T : Fragment> Fragment.showFragment(
-    @IdRes containerId: Int,
+    @IdRes containerId: Int = R.id.fragmentContainerView,
     arguments: Bundle? = null,
     addToBackStack: Boolean = true,
     tag: String? = T::class.java.name

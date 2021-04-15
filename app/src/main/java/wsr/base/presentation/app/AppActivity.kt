@@ -25,19 +25,19 @@ class AppActivity : AppCompatActivity(R.layout.app) {
         MobileAds.initialize(this) {}
 
         if (savedInstanceState == null) {
-            showFragment<LaunchFragment>(R.id.fragmentContainerView, addToBackStack = false)
+            showFragment<LaunchFragment>(addToBackStack = false)
         }
 
         supportFragmentManager.setFragmentResultListener("authorized", this) { key, bundle ->
-            showFragment<MainFragment>(R.id.fragmentContainerView, addToBackStack = false)
+            showFragment<MainFragment>(addToBackStack = false)
         }
 
         supportFragmentManager.setFragmentResultListener("goToMain", this) { key, bundle ->
-            showFragment<MainFragment>(R.id.fragmentContainerView, addToBackStack = false)
+            showFragment<MainFragment>(addToBackStack = false)
         }
 
         supportFragmentManager.setFragmentResultListener("goToAuth", this) { key, bundle ->
-            showFragment<AuthFragment>(R.id.fragmentContainerView, addToBackStack = false)
+            showFragment<AuthFragment>(addToBackStack = false)
         }
     }
 }
