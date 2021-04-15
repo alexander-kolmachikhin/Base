@@ -9,7 +9,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +17,7 @@ import wsr.base.R
 import wsr.base.databinding.ProfileBinding
 import wsr.base.domain.AuthController
 import wsr.base.domain.TestApi
-import wsr.base.domain.TestResponse
+import wsr.base.domain.User
 
 class ProfileFragment : Fragment(R.layout.profile) {
 
@@ -47,13 +46,27 @@ class ProfileFragment : Fragment(R.layout.profile) {
     }
 
     private fun testRetrofit() {
-        testApi.getLatest().enqueue(object : Callback<TestResponse> {
-            override fun onResponse(call: Call<TestResponse>, response: Response<TestResponse>) {
-                binding.textView2.text = response.body().toString()
+        testApi.getUsers().enqueue(object : Callback<List<User>> {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                binding.textView2.text = buildString {
+                    response.body()?.forEach {
+                        appendLine(it.name)
+                    } ?: append("Empty")
+                }
             }
 
-            override fun onFailure(call: Call<TestResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
                 binding.textView2.text = t.localizedMessage
+            }
+        })
+
+        testApi.get().enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                binding.textView3.text = response.body()
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                binding.textView3.text = t.localizedMessage
             }
         })
     }

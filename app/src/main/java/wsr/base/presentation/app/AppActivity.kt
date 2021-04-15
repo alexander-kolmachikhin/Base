@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.gms.ads.MobileAds
 import wsr.base.R
 import wsr.base.databinding.AppBinding
 import wsr.base.presentation.app.auth.AuthFragment
@@ -20,6 +21,8 @@ class AppActivity : AppCompatActivity(R.layout.app) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this) {}
 
         if (savedInstanceState == null) {
             showFragment<LaunchFragment>(R.id.fragmentContainerView, addToBackStack = false)
